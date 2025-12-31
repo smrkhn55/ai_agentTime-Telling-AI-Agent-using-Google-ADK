@@ -24,4 +24,3 @@ def get_time(city: str) -> str:
     current_time = datetime.now(tz)
 
     return f"Current time in {city.title()} is {current_time.strftime('%Y-%m-%d %H:%M:%S')}"
-
