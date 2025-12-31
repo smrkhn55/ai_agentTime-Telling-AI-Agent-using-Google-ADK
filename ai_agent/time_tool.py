@@ -1,21 +1,27 @@
 from datetime import datetime
 import pytz
 
-def get_time(city):
+def get_time(city: str) -> str:
+    if not city:
+        return "Please provide a city name."
+
+    city = city.strip().lower()
+
     city_timezones = {
         "lahore": "Asia/Karachi",
         "karachi": "Asia/Karachi",
-        "peshawar": "Asia/Karachi",
         "islamabad": "Asia/Karachi",
+        "peshawar": "Asia/Karachi",
         "new york": "America/New_York",
         "london": "Europe/London",
         "tokyo": "Asia/Tokyo"
     }
 
-    city = city.lower()
+    if city not in city_timezones:
+        return f"City '{city}' not supported."
 
-    if city in city_timezones:
-        tz = pytz.timezone(city_timezones[city])
-        return datetime.now(tz).strftime("%Y-%m-%d %H:%M:%S")
+    tz = pytz.timezone(city_timezones[city])
+    current_time = datetime.now(tz)
 
-    return "City not supported"
+    return f"Current time in {city.title()} is {current_time.strftime('%Y-%m-%d %H:%M:%S')}"
+
