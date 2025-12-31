@@ -1,14 +1,21 @@
-import requests
+from datetime import datetime
+import pytz
 
 def get_time(city):
-    url = "https://worldtimeapi.org/api/timezone"
-    response = requests.get(url).json()
+    city_timezones = {
+        "lahore": "Asia/Karachi",
+        "karachi": "Asia/Karachi",
+        "peshawar": "Asia/Karachi",
+        "islamabad": "Asia/Karachi",
+        "new york": "America/New_York",
+        "london": "Europe/London",
+        "tokyo": "Asia/Tokyo"
+    }
 
-    for zone in response:
-        if city.lower() in zone.lower():
-            data = requests.get(
-                f"https://worldtimeapi.org/api/timezone/{zone}"
-            ).json()
-            return data["datetime"]
+    city = city.lower()
 
-    return "City not found"
+    if city in city_timezones:
+        tz = pytz.timezone(city_timezones[city])
+        return datetime.now(tz).strftime("%Y-%m-%d %H:%M:%S")
+
+    return "City not supported"
